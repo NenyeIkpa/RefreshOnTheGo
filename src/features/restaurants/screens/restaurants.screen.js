@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { FlatList } from "react-native";
 import { ActivityIndicator, Searchbar } from "react-native-paper";
 import styled from "styled-components/native";
@@ -21,17 +21,50 @@ const RestaurantList = styled(FlatList).attrs({
 
 export const RestaurantsScreen = () => {
   const { isLoading, error, restaurants } = useContext(RestaurantsContext);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredDataSource, setFilteredDataSource] = useState([]);
+  const [masterDataSource, setMasterDataSource] = useState([]);
+  console.log(masterDataSource);
+  useEffect(() => {
+    setFilteredDataSource(restaurants);
+    setMasterDataSource(restaurants);
+  }, [restaurants]);
+
+  const searchFilterFunction = (query) => {
+    // Check if searched text is not blank
+    if (query) {
+      // Inserted text is not blank
+      // Filter the masterDataSource
+      // Update FilteredDataSource
+      const newData = masterDataSource.filter((item) => {
+        const itemName = item.name ? item.name.toUpperCase() : "".toUpperCase();
+        const queryText = query.toUpperCase();
+        return itemName.indexOf(queryText > -1);
+      });
+      setFilteredDataSource(newData);
+      setSearchQuery(query);
+    } else {
+      // Inserted text is blank
+      // Update FilteredDataSource with masterDataSource
+      setFilteredDataSource(masterDataSource);
+      setSearchQuery(query);
+    }
+  };
 
   return (
     <SafeArea>
       {isLoading && <ActivityIndicator size="large" top="50%" />}
       <SearchContainer>
-        <Searchbar placeholder="Search" />
+        <Searchbar
+          placeholder="Search"
+          onChangeText={(query) => searchFilterFunction(query)}
+          value={searchQuery}
+        />
       </SearchContainer>
       <RestaurantList
-        data={restaurants}
+        data={filteredDataSource}
         renderItem={({ item }) => {
-          console.log(item);
+          // console.log(item);
           return <RestaurantInfoCard restaurant={item} />;
         }}
         keyExtractor={(item) => item.name}

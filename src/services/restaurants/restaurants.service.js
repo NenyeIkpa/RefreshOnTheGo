@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { mocks, mockImages } from "./mock/mock/index";
 import camelize from "camelize";
 
@@ -11,15 +12,7 @@ export const restaurantsRequest = (location = "37.7749295,-122.4194155") => {
   });
 };
 
-const options = {
-  method: "GET",
-  headers: {
-    "X-RapidAPI-Key": "SIGN-UP-FOR-KEY",
-    "X-RapidAPI-Host": "community-food2fork.p.rapidapi.com",
-  },
-};
-
-export const restaurantsTransform = ({ results = [] }) => {
+export const restaurantsTransform = ({ results = [], meals }) => {
   const mappedResults = results.map((restaurant) => {
     restaurant.photos = restaurant.photos.map((p) => {
       return mockImages[Math.ceil(Math.random() * (mockImages.length - 1))];
