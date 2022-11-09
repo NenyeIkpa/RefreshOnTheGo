@@ -10,17 +10,19 @@ const SearchContainer = styled.View`
 export const Search = () => {
   const { keyword, search } = useContext(LocationContext);
   const [searchKeyword, setSearchKeyword] = useState(keyword);
-  console.log("keyword", keyword);
-  console.log("searchKeyword", searchKeyword);
+  console.log("search component keyword", keyword);
+  console.log("search component searchKeyword", searchKeyword);
+
+  useEffect(() => {
+    setSearchKeyword(keyword);
+  }, [keyword]);
 
   return (
     <SearchContainer>
       <Searchbar
         placeholder="Search for a location"
         value={searchKeyword}
-        onSubmitText={() => {
-          search(searchKeyword);
-        }}
+        onSubmitEditing={() => search(searchKeyword)}
         onChangeText={(text) => {
           setSearchKeyword(text);
         }}

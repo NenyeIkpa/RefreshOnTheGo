@@ -13,11 +13,12 @@ export const LocationContextProvider = ({ children }) => {
     setIsLoading(true);
     setKeyword(searchKeyword);
   };
+
   useEffect(() => {
     if (!keyword.length) {
       return;
     }
-    console.log(keyword);
+    console.log("location context keyword: ", keyword);
 
     locationRequest(keyword.toLowerCase())
       .then(locationTransform)
@@ -25,7 +26,7 @@ export const LocationContextProvider = ({ children }) => {
         console.log(result);
         setIsLoading(false);
         setLocation(result);
-        console.log(result);
+        console.log("location context result: ", result);
       })
       .catch((err) => {
         console.log(err);
