@@ -18,6 +18,7 @@ const CompactWebview = styled(WebView)`
 `;
 
 const Item = styled.View`
+  margin: 5px;
   padding: 10px;
   max-width: 120px;
   align-items: center;
@@ -25,8 +26,8 @@ const Item = styled.View`
 
 const isAndroid = Platform.OS === "android";
 
-export const CompactRestaurantInfo = ({ restaurant }) => {
-  const Image = isAndroid ? CompactWebview : CompactImage;
+export const CompactRestaurantInfo = ({ restaurant, isMap }) => {
+  const Image = isAndroid && isMap ? CompactWebview : CompactImage;
 
   return (
     <Item>
